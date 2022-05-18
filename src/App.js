@@ -3,6 +3,7 @@ import './App.css';
 import ResultComponent from './components/ResultComponent';
 import KeyPadComponent from "./components/KeyPadComponent";
 
+
 const App =()=> {
     const [result, setResult] = useState("")
     const calculate = () => {
@@ -12,7 +13,6 @@ const App =()=> {
         } else {
             checkResult = result
         }
-
         try {
             // let stringRes = (eval(checkResult) || "").toString()
             let stringRes = Function('"use strict";return ('+ (checkResult||"") +')')().toString()
@@ -25,18 +25,15 @@ const App =()=> {
         setResult("")
     }
     const backspace = () => {
-        console.log(result)
         setResult(prevState => prevState.slice(0, -1))
     }
+
     const onClick = (button) => {
-        if (button === "=") {
-            calculate()
-        } else if (button === "C") {
-            reset()
-        } else if (button === "CE") {
-            backspace()
-        } else {
-            setResult(prevState => prevState + button)
+        switch (button){
+            case "=" : return calculate()
+            case "C" : return  reset()
+            case "CE" : return backspace()
+            default : setResult(prevState => prevState+button)
         }
     }
 
@@ -46,6 +43,10 @@ const App =()=> {
                 <ResultComponent result={result}/>
                 <KeyPadComponent onClick={onClick}/>
             </div>
+
+            <div style={{backgroundColor:"white"}}>
+            </div>
+
         </div>
     )
 }
